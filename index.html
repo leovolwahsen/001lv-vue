@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Vue Basics</title>
+    <style>
+        #app {
+            box-sizing: border-box;
+            width: 98vw;
+            height: 98vh;
+            margin: 0rem;
+            padding: 0rem;
+            background-color: gray;
+        }
+
+        .box {
+            background-color: purple;
+            height: 12rem;
+            width: 12rem;
+        }
+
+        input {
+            margin: 0.7rem;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <login-form />
+
+        <hr />
+
+        <button @click="toggleBox">Toggle Box</button>
+        <div v-if="isVisible" class="box"></div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        let app = Vue.createApp({
+            data: function() {
+                return {
+                    greeting: "Hello Vue Framework!",
+                    isVisible: false
+                }
+            }, 
+            methods: {
+                toggleBox() {
+                    this.isVisible = !this.isVisible
+                },
+                greet(greeting) {
+                    console.log(greeting);
+                }
+            }
+        })
+        
+        app.component("login-form", {
+            template: `
+                <form @submit.prevent="handleSubmit">
+                    <h1>{{ title }}</h1>
+                    <input type="email" v-model="email" />
+                    <input type="password" v-model="password" />
+                    <button>Log in</button>
+                </form>
+            `,
+            data() {
+                return {
+                    title: "Login Form",
+                    email: "",
+                    password: ""
+                }
+            },
+            method: {
+                handleSubmit() {
+                    console.log(this.email, this.password)
+                }
+            }
+        })
+        app.mount("#app")
+    </script>
+
+</body>
+</html>
